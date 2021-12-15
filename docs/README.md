@@ -4,7 +4,7 @@
 
 Open endpoints require no Authentication.
 
-### Reports related
+### Reports related
 
 * [Show all reports](reports/get.md) : `GET /api/v1/reports`
 * [Show a report](reports/get.md) : `GET /api/v1/reports/:id`
