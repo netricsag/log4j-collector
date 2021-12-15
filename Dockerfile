@@ -9,5 +9,5 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=0 /go/src/github.com/bluestoneag/post-handler/app ./
-EXPOSE 8000
+EXPOSE 8080
 CMD ["./app"]
