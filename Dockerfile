@@ -2,7 +2,7 @@
 FROM golang:1.17
 WORKDIR /go/src/github.com/bluestoneag/log4j-collector/
 COPY . .
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o app .
+RUN go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o app .
 
 FROM alpine:latest  
 RUN apk --no-cache add ca-certificates
