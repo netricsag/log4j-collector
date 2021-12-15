@@ -1,0 +1,17 @@
+# sample docker-compose.yaml for a BluePhish deployment
+version: '3'
+services:
+  app:
+    container_name: log4j-collector
+    image: ghcr.io/bluestoneag/log4j-collector:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/log4j-collector/db/:/root/db/
+    restart: unless-stopped
+    networks:
+      - log4j
+
+networks:
+  log4j:
+    driver: bridge
