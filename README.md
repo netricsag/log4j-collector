@@ -17,6 +17,18 @@ The frontend can be found at:
 
 **Note:** The database file will be created at the given path or if not provided at the default path with the default name. Make sure you add .db to the end of the file name.
 
+## Docker
+
+The docker image is available at:
+```
+docker pull ghcr.io/bluestoneag/log4j-collector:latest
+```
+
+Port mapping:
+```
+docker run -d -p 8080:8080 ghcr.io/bluestoneag/log4j-collector:latest
+```
+
 ## API Documentation
 The Api documentation is available at:
 - [API Documentation](docs/)
