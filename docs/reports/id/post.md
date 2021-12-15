@@ -1,6 +1,6 @@
 # Update a specific report
 
-Update a specific report with the new values provided.
+Update a specific report with the new values provided. You can update everything or just a specific fields in the report. But the vulnerable Files will be flushed and set with the new values.
 
 **URL** : `/api/v1/reports/:id`
 
@@ -90,19 +90,6 @@ Update a specific report with the new values provided.
 ```json
 {
     "message": "Report not found"
-}
-```
-
-### Or
-
-**Condition** : If ServerName is not provided.
-
-**Code** : `500 Internal Server Error`
-
-**Content** : 
-```json
-{
-    "message": "Server name cannot be empty"
 }
 ```
 

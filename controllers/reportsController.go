@@ -59,19 +59,22 @@ func UpdateReport(c *fiber.Ctx) error {
 	if err := c.BodyParser(&report); err != nil {
 		return c.Status(500).JSON(map[string]interface{}{"message": "Error parsing request body"})
 	}
-	// Check if server name is empty
-	if report.ServerName == "" {
-		return c.Status(500).JSON(map[string]interface{}{"message": "Server name cannot be empty"})
-	}
-	// Check if report is in database
-	if err := db.Preload("VulnerableFiles").First(&report, c.Params("id")).Error; err != nil {
+	// Get existing report
+	var existingReport models.Report
+	if err := db.Preload("VulnerableFiles").First(&existingReport, c.Params("id")).Error; err != nil {
 		return c.Status(500).JSON(map[string]interface{}{"message": "Report not found"})
 	}
-	// Delete all existing vulnerable files
-	db.Model(&report).Association("VulnerableFiles").Clear()
-	// Add new vulnerable files to report
-	db.Model(&report).Association("VulnerableFiles").Append(report.VulnerableFiles)
-	return c.Status(200).JSON(report)
+	if existingReport.ID != 0 {
+		// Delete all existing vulnerable files
+		db.Model(&existingReport).Association("VulnerableFiles").Clear()
+		// Add new vulnerable files to existing report
+		db.Model(&existingReport).Association("VulnerableFiles").Append(report.VulnerableFiles)
+		// Update existing with new values
+		db.Model(&existingReport).Updates(report)
+		return c.Status(200).JSON(existingReport)
+	} else {
+		return c.Status(500).JSON(map[string]interface{}{"message": "Report not found"})
+	}
 }
 
 func DeleteReport(c *fiber.Ctx) error {
