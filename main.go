@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/bluestoneag/log4j-collector/database"
@@ -14,8 +15,10 @@ import (
 )
 
 var (
-	dbName string
-	err    error
+	dbName     string
+	dbPath     string
+	dbLocation string
+	err        error
 )
 
 func init() {
@@ -26,10 +29,28 @@ func init() {
 		dbName = "log4j-collector.db"
 	}
 
-	_, err = os.Stat(dbName)
+	dbPath = os.Getenv("DB_PATH")
+	if dbPath == "" {
+		util.WarningLogger.Println("DB_PATH is not set, setting it to default value: ./db")
+		dbPath = "./db"
+	}
+
+	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
+		util.WarningLogger.Println("DB_PATH does not exist, creating it")
+		err = os.MkdirAll(dbPath, 0755)
+		if err != nil {
+			util.ErrorLogger.Println("Failed to create DB_PATH")
+			os.Exit(1)
+		}
+	}
+
+	dbLocation = filepath.Join(dbPath, filepath.Base(dbName))
+	util.InfoLogger.Printf("DB_LOCATION: %s", dbLocation)
+
+	_, err = os.Stat(dbLocation)
 	if os.IsNotExist(err) {
 		util.WarningLogger.Println("Database file does not exist, creating it")
-		file, err := os.Create(dbName)
+		file, err := os.Create(dbLocation)
 		if err != nil {
 			util.ErrorLogger.Println(err)
 			os.Exit(1)
@@ -37,20 +58,21 @@ func init() {
 		defer file.Close()
 	} else if err != nil {
 		currentTime := time.Now().Local()
-		err = os.Chtimes(dbName, currentTime, currentTime)
+		err = os.Chtimes(dbLocation, currentTime, currentTime)
 		if err != nil {
 			util.ErrorLogger.Println(err)
 			os.Exit(1)
 		}
 	}
 
-	database.DBConn, err = gorm.Open(sqlite.Open(dbName), &gorm.Config{})
+	database.DBConn, err = gorm.Open(sqlite.Open(dbLocation), &gorm.Config{})
 	if err != nil {
 		util.ErrorLogger.Println(err)
 		os.Exit(1)
 	}
 
 	database.DBConn.AutoMigrate(&models.Report{})
+	database.DBConn.AutoMigrate(&models.VulnerableFile{})
 }
 
 func main() {

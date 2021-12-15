@@ -10,5 +10,8 @@ func Setup(app *fiber.App) {
 	v1 := api.Group("/v1")
 
 	v1.Get("/reports", controllers.GetReports)
-	v1.Post("/reports", controllers.PostReport)
+	v1.Get("/reports/:id", controllers.GetReport)
+	v1.Post("/reports", controllers.CreateReport)
+	v1.Post("/reports/:id", controllers.UpdateReport)
+	v1.Delete("/reports/:id", controllers.DeleteReport)
 }
