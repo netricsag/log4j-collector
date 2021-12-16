@@ -10,6 +10,7 @@ import (
 	"github.com/bluestoneag/log4j-collector/routes"
 	"github.com/bluestoneag/log4j-collector/util"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -81,6 +82,11 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("github.com/bluestoneag/log4j-collector")
 	})
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Origin, Content-Type, Accept",
+	}))
 
 	routes.Setup(app)
 	util.InfoLogger.Printf("Started web server on port 8080")
