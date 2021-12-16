@@ -79,6 +79,20 @@ All the old values will be flushed.
 }
 ```
 
+### Or
+
+**Condition** : If you send only the servername without the vulnerableFiles, the report will be deleted.
+
+**Code** : `200 OK`
+
+**Content example**
+
+```json
+{
+    "message": "Report deleted"
+}
+```
+
 ## Error Responses
 
 **Condition** : If ServerName is not provided.
