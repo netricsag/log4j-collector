@@ -80,6 +80,20 @@ Update a specific report with the new values provided. You can update everything
 }
 ```
 
+### Or
+
+**Condition** : If you send only the servername without the vulnerableFiles, the report will be deleted.
+
+**Code** : `200 OK`
+
+**Content example**
+
+```json
+{
+    "message": "Report deleted"
+}
+```
+
 ## Error Responses
 
 **Condition** : If ID is not found.
