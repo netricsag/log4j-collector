@@ -10,6 +10,10 @@ This is a simple log4j collector that will collect logs from a HTTP JSON API RES
 The frontend can be found at:
 - https://github.com/bluestoneag/log4j-collector-frontend
 
+## Scanning
+For the scanning process and data collection, the following tool can be used:
+- [log4j-scanner](https://github.com/bluestoneag/log4j-scanner)
+
 ## Env Variables
 
 * `DB_NAME` - The name of the database file. Default: `log4j-collector.db`
