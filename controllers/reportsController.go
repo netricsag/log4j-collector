@@ -43,14 +43,6 @@ func CreateReport(c *fiber.Ctx) error {
 	if existingReport.ID != 0 {
 		// Report already exists in database, delete all existing vulnerable files
 		db.Model(&existingReport).Association("VulnerableFiles").Clear()
-
-		// Check if vulnerable files are empty
-		if len(report.VulnerableFiles) == 0 {
-			// No vulnerable files, delete report
-			db.Delete(&existingReport)
-			return c.Status(200).JSON(map[string]interface{}{"message": "Report deleted"})
-		}
-
 		// Add new vulnerable files to existing report
 		db.Model(&existingReport).Association("VulnerableFiles").Append(report.VulnerableFiles)
 		return c.Status(200).JSON(existingReport)
@@ -75,14 +67,6 @@ func UpdateReport(c *fiber.Ctx) error {
 	if existingReport.ID != 0 {
 		// Delete all existing vulnerable files
 		db.Model(&existingReport).Association("VulnerableFiles").Clear()
-
-		// Check if vulnerable files are empty
-		if len(report.VulnerableFiles) == 0 {
-			// No vulnerable files, delete report
-			db.Delete(&existingReport)
-			return c.Status(200).JSON(map[string]interface{}{"message": "Report deleted"})
-		}
-
 		// Add new vulnerable files to existing report
 		db.Model(&existingReport).Association("VulnerableFiles").Append(report.VulnerableFiles)
 		// Update existing with new values

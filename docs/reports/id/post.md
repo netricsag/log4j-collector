@@ -82,7 +82,7 @@ Update a specific report with the new values provided. You can update everything
 
 ### Or
 
-**Condition** : If you send only the servername without the vulnerableFiles, the report will be deleted.
+**Condition** : If you send only the servername without the vulnerableFiles, the linked vulnerable files will be deleted, but the report with the servername will be kept.
 
 **Code** : `200 OK`
 
