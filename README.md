@@ -15,9 +15,9 @@ The frontend can be found at:
 * `DB_NAME` - The name of the database file. Default: `log4j-collector.db`
 * `DB_PATH` - The path of the database file. Default is `./db`.
 
-**Note:** The database file will be created at the given path or if not provided at the default path with the default name. Make sure you add .db to the end of the file name.
+**Note:** The database file will be created at the given `DB_PATH` or if not provided at the default path with the default name. Make sure you add .db to the end of the `DB_NAME` name.
 
-## Docker
+## Docker
 
 The docker image is available at:
 ```
@@ -32,3 +32,7 @@ docker run -d -p 8080:8080 ghcr.io/bluestoneag/log4j-collector:latest
 ## API Documentation
 The Api documentation is available at:
 - [API Documentation](docs/)
+
+## Authors
+This project is maintained by [bluestoneag](https://github.com/bluestoneag) and [netrics](https://netrics.ch).  
+Feel free to contribute!
